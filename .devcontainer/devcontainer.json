@@ -1,0 +1,16 @@
+{
+  "name": "California Dev Environment",
+  "image": "mcr.microsoft.com/devcontainers/base:bullseye",
+  "features": {
+    "ghcr.io/devcontainers/features/azure-cli:1": {},
+    "ghcr.io/devcontainers/features/common-utils:1": {},
+    "ghcr.io/devcontainers/features/dotnet:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/eitsupi/devcontainer-features/jq-likes:0": {},
+    "ghcr.io/rchaganti/vsc-devcontainer-features/azurebicep:1": {}
+  },
+  "extensions": [
+    "editorconfig.editorconfig",
+    "github.copilot"
+  ]
+}
