@@ -1,8 +1,9 @@
 {
   "recommendations": [
+    "editorconfig.editorconfig",
+    "github.copilot",
     "ms-vscode.azurecli",
     "ms-azuretools.vscode-bicep",
-    "ms-dotnettools.csharp",
-    "github.copilot"
+    "ms-dotnettools.csharp"
   ]
 }

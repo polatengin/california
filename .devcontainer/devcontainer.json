@@ -11,6 +11,9 @@
   },
   "extensions": [
     "editorconfig.editorconfig",
-    "github.copilot"
+    "github.copilot",
+    "ms-vscode.azurecli",
+    "ms-azuretools.vscode-bicep",
+    "ms-dotnettools.csharp"
   ]
 }
