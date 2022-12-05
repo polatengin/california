@@ -44,6 +44,8 @@ await connection.StartAsync();
 
 Console.WriteLine("Connected to server");
 
+await connection.InvokeAsync("JoinGroup", "test");
+
 await rootCommand.InvokeAsync(args);
 var tcs = new TaskCompletionSource();
 using var reg = PosixSignalRegistration.Create(PosixSignal.SIGINT, _ => tcs.TrySetResult());
