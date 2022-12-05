@@ -22,6 +22,10 @@ sub2Command.SetHandler(() =>
   Console.WriteLine("join");
 });
 
+var connection = new HubConnectionBuilder()
+    .WithUrl("http://localhost:5186/hub")
+    .Build();
+
 await rootCommand.InvokeAsync(args);
 var tcs = new TaskCompletionSource();
 using var reg = PosixSignalRegistration.Create(PosixSignal.SIGINT, _ => tcs.TrySetResult());
