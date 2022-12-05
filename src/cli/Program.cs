@@ -26,6 +26,15 @@ var connection = new HubConnectionBuilder()
     .WithUrl("http://localhost:5186/hub")
     .Build();
 
+connection.Closed += async (error) =>
+{
+  Console.WriteLine("Connection closed");
+  await Task.Delay(new Random().Next(10, 15) * 1000);
+  Console.WriteLine("retrying...");
+  await connection.StartAsync();
+  Console.WriteLine("Connected to server");
+};
+
 await rootCommand.InvokeAsync(args);
 var tcs = new TaskCompletionSource();
 using var reg = PosixSignalRegistration.Create(PosixSignal.SIGINT, _ => tcs.TrySetResult());
