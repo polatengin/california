@@ -35,6 +35,11 @@ connection.Closed += async (error) =>
   Console.WriteLine("Connected to server");
 };
 
+connection.On<string, string>("JoinGroup", (user, message) =>
+{
+  Console.WriteLine($"{user}: {message}");
+});
+
 await rootCommand.InvokeAsync(args);
 var tcs = new TaskCompletionSource();
 using var reg = PosixSignalRegistration.Create(PosixSignal.SIGINT, _ => tcs.TrySetResult());
