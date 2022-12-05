@@ -40,6 +40,10 @@ connection.On<string, string>("JoinGroup", (user, message) =>
   Console.WriteLine($"{user}: {message}");
 });
 
+await connection.StartAsync();
+
+Console.WriteLine("Connected to server");
+
 await rootCommand.InvokeAsync(args);
 var tcs = new TaskCompletionSource();
 using var reg = PosixSignalRegistration.Create(PosixSignal.SIGINT, _ => tcs.TrySetResult());
