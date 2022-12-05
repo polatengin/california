@@ -1,4 +1,5 @@
 using System.CommandLine;
+using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.SignalR.Client;
 
 var hostOption = new Option<bool>(name: "--host", description: "To host a bingo game");
@@ -22,3 +23,8 @@ sub2Command.SetHandler(() =>
 });
 
 await rootCommand.InvokeAsync(args);
+var tcs = new TaskCompletionSource();
+using var reg = PosixSignalRegistration.Create(PosixSignal.SIGINT, _ => tcs.TrySetResult());
+await tcs.Task;
+
+Console.WriteLine("Closing");
