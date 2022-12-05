@@ -1,0 +1,7 @@
+using Microsoft.AspNetCore.SignalR;
+
+namespace Bingo.Server.Hubs;
+
+public class BingoHub : Hub
+{
+}
