@@ -23,7 +23,7 @@ sub2Command.SetHandler(() =>
 });
 
 var connection = new HubConnectionBuilder()
-    .WithUrl("http://localhost:5186/hub")
+    .WithUrl("http://localhost:5000/hub")
     .Build();
 
 connection.Closed += async (error) =>
