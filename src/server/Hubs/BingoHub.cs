@@ -65,14 +65,7 @@ public class BingoHub : Hub
       return false;
     }
 
-    group = new();
-    group.Add(Tuple.Create(Context.ConnectionId, playerName));
-
-    _clients.Add(groupName, group);
-
-    await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-
-    await Clients.Group(groupName).SendAsync("UpdatePlayerList", group);
+    await Clients.Group(groupName).SendAsync("GameStarted", group);
 
     return true;
   }
