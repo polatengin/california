@@ -51,7 +51,34 @@ connection.On<BingoGame>("UpdateGame", async (game) =>
 {
   _game = game;
 
-  await RenderMenuAsync();
+  switch (game.Status)
+  {
+    case GameStatus.Started:
+      Console.Clear();
+
+      Console.WriteLine("Game started");
+
+      Console.WriteLine("Press any key to exit");
+
+      Console.ReadLine();
+
+      Environment.Exit(0);
+      break;
+    case GameStatus.Waiting:
+      await RenderMenuAsync();
+      break;
+    case GameStatus.Finished:
+      Console.Clear();
+
+      Console.WriteLine("Game finished");
+
+      Console.WriteLine("Press any key to exit");
+
+      Console.ReadLine();
+
+      Environment.Exit(0);
+      break;
+  }
 });
 
 var rootCommand = new RootCommand();
