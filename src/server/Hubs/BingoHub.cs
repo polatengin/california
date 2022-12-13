@@ -32,7 +32,7 @@ public class BingoHub : Hub
 
     await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
-    await Clients.Group(groupName).SendAsync("UpdatePlayerList", group);
+    await Clients.Group(groupName).SendAsync("UpdateGame", group);
 
     return true;
   }
@@ -45,14 +45,19 @@ public class BingoHub : Hub
       return false;
     }
 
-    group = new();
+    group = new()
+    {
+      Name = groupName,
+      Status = GameStatus.Waiting,
+      Players = new()
+    };
     group.Players.Add(Tuple.Create(Context.ConnectionId, playerName));
 
     _clients.Add(groupName, group);
 
     await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
-    await Clients.Group(groupName).SendAsync("UpdatePlayerList", group);
+    await Clients.Group(groupName).SendAsync("UpdateGame", group);
 
     return true;
   }
@@ -74,16 +79,16 @@ public class BingoHub : Hub
   {
     foreach (var group in _clients)
     {
-      foreach (var connection in group.Value)
+      foreach (var connection in group.Value.Players)
       {
         if (connection.Item1 == Context.ConnectionId)
         {
-          var set = group.Value;
+          var set = group.Value.Players;
           set.Remove(connection);
 
-          Clients.Group(group.Key).SendAsync("UpdatePlayerList", group).Wait();
+          Clients.Group(group.Key).SendAsync("UpdateGame", group).Wait();
 
-          if (set.Players.Count == 0)
+          if (set.Count == 0)
           {
             Console.WriteLine($"Group {group.Key} has been removed");
             _clients.Remove(group.Key);
