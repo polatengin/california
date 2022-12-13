@@ -70,7 +70,7 @@ public class BingoHub : Hub
       return false;
     }
 
-    await Clients.Group(groupName).SendAsync("GameStarted", group);
+    await Clients.Group(groupName).SendAsync("UpdateGame", group);
 
     return true;
   }
