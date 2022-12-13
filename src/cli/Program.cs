@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.SignalR.Client;
 
 var _gameName = string.Empty;
-var _players = new HashSet<Tuple<string, string>>();
+var _game = new BingoGame();
 
 var connection = new HubConnectionBuilder()
     .WithUrl("http://localhost:5000/hub")
@@ -30,7 +30,7 @@ async Task RenderMenuAsync()
 
   Console.WriteLine("List of people connected to the game:");
 
-  foreach (var client in _players)
+  foreach (var client in _game.Players)
   {
     Console.WriteLine(client.Item2);
   }
@@ -47,9 +47,9 @@ connection.Closed += async (error) =>
   Console.WriteLine(await Task.FromResult("Connection closed"));
 };
 
-connection.On<HashSet<Tuple<string, string>>>("UpdatePlayerList", async (players) =>
+connection.On<BingoGame>("UpdateGame", async (game) =>
 {
-  _players = players;
+  _game = game;
 
   await RenderMenuAsync();
 });
@@ -139,3 +139,17 @@ using var reg = PosixSignalRegistration.Create(PosixSignal.SIGINT, _ => tcs.TryS
 await tcs.Task;
 
 Console.WriteLine("Closing");
+
+public enum GameStatus
+{
+  Waiting,
+  Started,
+  Finished
+}
+
+public record BingoGame
+{
+  public string Name { get; set; }
+  public GameStatus Status { get; set; }
+  public HashSet<Tuple<string, string>> Players { get; set; }
+}
